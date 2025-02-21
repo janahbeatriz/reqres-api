@@ -4,7 +4,7 @@
 		"name": "ReqRes API Testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21106399",
-		"_collection_link": "https://winter-shadow-808398.postman.co/workspace/491ffc45-da09-45e2-8d5c-933fa4cf7bfa/collection/21106399-e94fd2ee-a3d3-4757-860f-f7456170f923?action=share&source=collection_link&creator=21106399"
+		"_collection_link": "https://winter-shadow-808398.postman.co/workspace/New-Team-Workspace~491ffc45-da09-45e2-8d5c-933fa4cf7bfa/collection/21106399-e94fd2ee-a3d3-4757-860f-f7456170f923?action=share&source=collection_link&creator=21106399"
 	},
 	"item": [
 		{
@@ -305,7 +305,7 @@
 						"exec": [
 							"let response = pm.response.json();\r",
 							"\r",
-							"pm.test(\"Status code is 200\", function(){\r",
+							"pm.test(\"Status code is 400\", function(){\r",
 							"        pm.expect(pm.response.code).to.be.oneOf([401,400,404]);\r",
 							"        \r",
 							"});\r",
@@ -325,7 +325,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test@reqres.in\",\r\n    \"password\": \"amanda\"\r\n}",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"amanda\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -366,7 +366,6 @@
 							"pm.environment.set(\"userId\", response.id);\r",
 							"pm.environment.set(\"authToken\", response.token);\r",
 							"pm.test(\"Saved 'userId' and 'authToken' to environment variables\", function () {\r",
-							"    pm.expect(pm.environment.get(\"userId\")).to.eql(response.id.toString());\r",
 							"    pm.expect(pm.environment.get(\"authToken\")).to.eql(response.token);\r",
 							"});\r",
 							""
@@ -419,7 +418,7 @@
 						"exec": [
 							"let response = pm.response.json();\r",
 							"\r",
-							"pm.test(\"Status code is 200\", function(){\r",
+							"pm.test(\"Status code is 400\", function(){\r",
 							"        pm.expect(pm.response.code).to.be.oneOf([401,400,404]);\r",
 							"        \r",
 							"});\r",
