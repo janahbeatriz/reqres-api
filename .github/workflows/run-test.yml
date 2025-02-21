@@ -24,9 +24,6 @@ jobs:
       - name: Install Newman
         run: npm install -g newman newman-reporter-html
 
-      - name: Create newman folder
-        run: mkdir -p newman
-
       # Step 4: Run Postman tests and generate HTML report
       - name: Run Postman tests and generate HTML report
         run: |
