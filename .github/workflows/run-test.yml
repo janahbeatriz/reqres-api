@@ -24,23 +24,35 @@ jobs:
       - name: Install Newman
         run: npm install -g newman newman-reporter-html
 
-      # Step 4: Run Postman tests and generate HTML report
+      # Step 4: Create 'newman' folder before generating the report
+      - name: Create newman folder
+        run: mkdir -p newman
+
+      # Step 5: Run Postman tests and generate HTML report
       - name: Run Postman tests and generate HTML report
         run: |
-          newman run ReqRes API Testing.postman_collection.json -e ReqRes API.postman_environment.json -r html,cli --reporter-html-export newman/index.html || true  # Export to index.html
+          newman run "ReqRes API Testing.postman_collection.json" \
+            -e "ReqRes API.postman_environment.json" \
+            -r html,cli \
+            --reporter-html-export newman/index.html || true  # Export to index.html
 
-      # Step 5: List files in the newman folder to confirm report generation
+      # Step 6: List files in the newman folder to confirm report generation
       - name: List files in newman folder
-        run: ls -al newman
+        run: |
+          if [ -d "newman" ]; then
+            ls -al newman
+          else
+            echo "newman folder not found! Report generation failed."
+            exit 1
+          fi
 
-
-      # Step 6: Deploy report to GitHub Pages
+      # Step 7: Deploy report to GitHub Pages
       - name: Deploy report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           publish_dir: newman  # Deploy the 'newman' folder to GitHub Pages
 
-      # Step 7: Confirm deployment
+      # Step 8: Confirm deployment
       - name: Confirm Deployment
         run: echo "GitHub Pages deployment complete!"
