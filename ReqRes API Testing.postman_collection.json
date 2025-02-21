@@ -1,0 +1,472 @@
+{
+	"info": {
+		"_postman_id": "e94fd2ee-a3d3-4757-860f-f7456170f923",
+		"name": "ReqRes API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21106399",
+		"_collection_link": "https://winter-shadow-808398.postman.co/workspace/491ffc45-da09-45e2-8d5c-933fa4cf7bfa/collection/21106399-e94fd2ee-a3d3-4757-860f-f7456170f923?action=share&source=collection_link&creator=21106399"
+	},
+	"item": [
+		{
+			"name": "Get all resources",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"pm.test(\r",
+							"    \"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([201,200,204]);\r",
+							"        \r",
+							"    }\r",
+							");\r",
+							"\r",
+							"pm.test(\"Verify 'data' is not null\", function () {\r",
+							"    pm.expect(response.data).to.not.be.null;\r",
+							"    pm.expect(response.data).to.not.be.undefined;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiurl}}/{resource}",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"{resource}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"pm.test(\r",
+							"    \"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([201,200,204]);\r",
+							"        \r",
+							"    }\r",
+							");\r",
+							"\r",
+							"pm.test(\"Verify 'data' is not null\", function () {\r",
+							"    pm.expect(response.data).to.not.be.null;\r",
+							"    pm.expect(response.data).to.not.be.undefined;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiurl}}/users",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response body as JSON\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([201,200,204]);\r",
+							"        \r",
+							"});\r",
+							"\r",
+							"pm.test(\"'data' object contains required fields\", function () {\r",
+							"    pm.expect(response.data).to.have.all.keys('id', 'email', 'first_name', 'last_name', 'avatar');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"'email' is a valid email\", function () {\r",
+							"    pm.expect(response.data.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"'first_name' and 'last_name' are valid strings\", function () {\r",
+							"    pm.expect(response.data.first_name).to.be.a('string').and.to.not.be.empty;\r",
+							"    pm.expect(response.data.last_name).to.be.a('string').and.to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiurl}}/users/1",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updates a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"let requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([201,200,204]);\r",
+							"        \r",
+							"});\r",
+							"\r",
+							"pm.test(\"'name' and 'job' match the request body\", function () {\r",
+							"    pm.expect(response.name).to.eql(requestBody.name);\r",
+							"    pm.expect(response.job).to.eql(requestBody.job);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiurl}}/users/1",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updates a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"let requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([201,200,204]);\r",
+							"        \r",
+							"});\r",
+							"\r",
+							"pm.test(\"'name' and 'job' match the request body\", function () {\r",
+							"    pm.expect(response.name).to.eql(requestBody.name);\r",
+							"    pm.expect(response.job).to.eql(requestBody.job);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"job\": \"zion 123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiurl}}/users/1",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([201,200,204]);\r",
+							"        \r",
+							"});\r",
+							"\r",
+							"pm.test(\"'token' is present and valid\", function () {\r",
+							"    pm.expect(response.token).to.be.a('string').that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"authToken\", response.token);\r",
+							"pm.test(\"Token saved to environment variable 'authToken'\", function () {\r",
+							"    pm.expect(pm.environment.get(\"authToken\")).to.eql(response.token);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiurl}}/login",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login session - Invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([401,400,404]);\r",
+							"        \r",
+							"});\r",
+							"\r",
+							"pm.test(\"'error' message is correct\", function () {\r",
+							"    pm.expect(response.error).to.eql(\"user not found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@reqres.in\",\r\n    \"password\": \"amanda\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiurl}}/login",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"let requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([201,200,204]);\r",
+							"        \r",
+							"});\r",
+							"\r",
+							"pm.test(\"'token' is present and valid\", function () {\r",
+							"    pm.expect(response.token).to.be.a('string').that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"userId\", response.id);\r",
+							"pm.environment.set(\"authToken\", response.token);\r",
+							"pm.test(\"Saved 'userId' and 'authToken' to environment variables\", function () {\r",
+							"    pm.expect(pm.environment.get(\"userId\")).to.eql(response.id.toString());\r",
+							"    pm.expect(pm.environment.get(\"authToken\")).to.eql(response.token);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiurl}}/register",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a user - Invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"        pm.expect(pm.response.code).to.be.oneOf([401,400,404]);\r",
+							"        \r",
+							"});\r",
+							"\r",
+							"pm.test(\"'error' message is correct\", function () {\r",
+							"    pm.expect(response.error).to.eql(\"Note: Only defined users succeed registration\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiurl}}/register",
+					"host": [
+						"{{apiurl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
